@@ -1,7 +1,7 @@
 {
-  "name": "node-red-contrib-ngsi-ld",
-  "version": "0.4.1",
-  "description": "Node-RED implementation for NGSI-LD",
+  "name": "node-red-contrib-ngsi-ld-ficodes",
+  "version": "0.4.2",
+  "description": "Node-RED implementation for NGSI-LD. FICODES pubishing.",
   "scripts": {
     "lint": "./node_modules/eslint/bin/eslint.js --ext .json,.js src test",
     "format": "./node_modules/.bin/prettier --write src test",
@@ -38,12 +38,12 @@
     "data",
     "json"
   ],
-  "author": "Kazuhito Suda",
+  "author": "Kazuhito Suda, Adrián Quevedo",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/lets-fiware/node-red-contrib-NGSI-LD/issues"
   },
-  "homepage": "https://node-red-contrib-ngsi-ld.letsfiware.jp/",
+  "homepage": "https://github.com/oxixes/node-red-contrib-NGSI-LD-FICODES",
   "dependencies": {
     "axios": "^1.4.0"
   },
