@@ -21,13 +21,13 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
 
     - name: Setup node
       run: npm ci
 
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v6
       with:
         node-version: ${{ matrix.node-version }}
 
@@ -38,7 +38,7 @@ jobs:
       run: npm run coverage
 
     - name: Coveralls
-      uses: coverallsapp/github-action@v1.2.0
+      uses: coverallsapp/github-action@v2.3.7
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: coverage/coverage.lcov
+        file: coverage/coverage.lcov
