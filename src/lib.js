@@ -108,7 +108,8 @@ function buildParams(config) {
     'aggrMethods',
     'aggrPeriodDuration',
     'pageSize',
-    'pageAnchor'
+    'pageAnchor',
+    'count'
   ].forEach((e) => {
     if (config[e] && config[e] !== '') {
       params.set(e, config[e]);
@@ -118,14 +119,14 @@ function buildParams(config) {
   const options = [];
   switch (config.representation) {
     case 'keyValues':
-      options.push('keyValues');
+      params.set('format', 'keyValues');
       config.sysAttrs = false;
       break;
     case 'concise':
-      options.push('concise');
+      params.set('format', 'concise');
       break;
   }
-  ['count', 'sysAttrs', 'noOverwrite', 'temporalValues', 'aggregatedValues'].forEach((e) => {
+  ['sysAttrs', 'noOverwrite', 'temporalValues', 'aggregatedValues'].forEach((e) => {
     if (typeof config[e] !== 'undefined' && config[e]) {
       options.push(e);
     }
