@@ -56,9 +56,9 @@ wait() {
 }
 
 # Setup node-RED
-npm install node-red@3.0.2
+npm install node-red@4.1.5
 npm ci
-npm link node-red-contrib-ngsi-ld
+npm link node-red-contrib-ngsi-ld-ficodes
 ./node_modules/node-red/red.js &
 
 # Setup containers
@@ -71,9 +71,8 @@ docker compose pull
 docker compose up -d
 
 # Wait for services
-wait "http://localhost:1026/ngsi-ld/ex/v1/version" "200"
+wait "http://localhost:9090/q/health/ready" "200"
 wait "http://localhost:1880/settings" "200"
-wait "http://localhost:8080/info" "200"
 
 # Upload flows to Node-RED
 curl -sL http://localhost:1880/flows --data @e2e-flows.json --header 'Content-type:application/json'
