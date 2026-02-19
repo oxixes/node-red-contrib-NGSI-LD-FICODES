@@ -32,6 +32,7 @@
 
 const { assert } = require('chai');
 const axios = require('axios');
+const { CONTEXT } = require('./constants');
 
 async function http(options) {
   return new Promise(function (resolve, reject) {
@@ -96,7 +97,7 @@ describe('entity.js', () => {
 
       assert.equal(actual.status, 200);
       assert.deepEqual(actual.data, {
-        '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+        '@context': CONTEXT,
         id: 'urn:ngsi-ld:TemperatureSensor:001',
         type: 'TemperatureSensor',
         category: {
@@ -129,7 +130,7 @@ describe('entity.js', () => {
 
       assert.equal(actual.status, 200);
       assert.deepEqual(actual.data, {
-        '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+        '@context': CONTEXT,
         id: 'urn:ngsi-ld:TemperatureSensor:001',
         type: 'TemperatureSensor',
         category: {
@@ -163,7 +164,7 @@ describe('entity.js', () => {
 
       assert.equal(actual.status, 200);
       assert.deepEqual(actual.data, {
-        '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+        '@context': CONTEXT,
         id: 'urn:ngsi-ld:TemperatureSensor:001',
         type: 'TemperatureSensor',
         category: 'sensor',
@@ -190,7 +191,7 @@ describe('entity.js', () => {
 
       assert.equal(actual.status, 200);
       assert.deepEqual(actual.data, {
-        '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+        '@context': CONTEXT,
         id: 'urn:ngsi-ld:TemperatureSensor:001',
         type: 'TemperatureSensor',
         category: 'sensor',
@@ -283,7 +284,7 @@ describe('entity.js', () => {
             }
           }
         },
-        '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+        '@context': CONTEXT,
         geometry: {
           type: 'Point',
           coordinates: [-73.975, 40.775556]

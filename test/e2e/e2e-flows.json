@@ -1166,11 +1166,11 @@
   {
     "id": "907c553d7533ec10",
     "type": "NGSI-LD broker",
-    "name": "Orion-LD",
-    "brokerType": "orion-ld",
-    "apiEndpoint": "http://localhost:1026",
-    "mintaka": "http://localhost:8080",
-    "atContext": "https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld",
+    "name": "Scorpio-LD",
+    "brokerType": "scorpio",
+    "apiEndpoint": "http://localhost:9090",
+    "mintaka": "",
+    "atContext": "",
     "tenant": "",
     "idmEndpoint": "",
     "idmType": "none"

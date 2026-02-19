@@ -4,13 +4,11 @@ on:
 
   push:
     branches:
-      - main
-      - "*-next"
+      - "*"
 
   pull_request:
     branches:
-      - main
-      - "*-next"
+      - "*"
 
 jobs:
   tests:
@@ -19,12 +17,12 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
 
     - name: Use Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v6
       with:
-        node-version: 18.x
+        node-version: "24"
 
     - name: setup
       run: ./test/e2e/setup.sh
