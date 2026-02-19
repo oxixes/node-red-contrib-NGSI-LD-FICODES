@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lets-fiware/node-red-contrib-NGSI-LD.git"
+    "url": "git+https://github.com/oxixes/node-red-contrib-NGSI-LD-FICODES.git"
   },
   "keywords": [
     "node-red",
@@ -41,7 +41,7 @@
   "author": "Kazuhito Suda, Adrián Quevedo",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lets-fiware/node-red-contrib-NGSI-LD/issues"
+    "url": "https://github.com/oxixes/node-red-contrib-NGSI-LD-FICODES/issues"
   },
   "homepage": "https://github.com/oxixes/node-red-contrib-NGSI-LD-FICODES",
   "dependencies": {
