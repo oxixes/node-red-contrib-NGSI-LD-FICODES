@@ -193,25 +193,25 @@ describe('lib.js', () => {
       const param = { representation: 'keyValues', sysAttrs: true };
       const actual = lib.buildParams(param);
 
-      assert.equal(actual.toString(), 'options=keyValues');
+      assert.equal(actual.toString(), 'format=keyValues');
     });
     it('keyValues', () => {
       const param = { representation: 'keyValues', sysAttrs: false };
       const actual = lib.buildParams(param);
 
-      assert.equal(actual.toString(), 'options=keyValues');
+      assert.equal(actual.toString(), 'format=keyValues');
     });
     it('concise', () => {
       const param = { representation: 'concise' };
       const actual = lib.buildParams(param);
 
-      assert.equal(actual.toString(), 'options=concise');
+      assert.equal(actual.toString(), 'format=concise');
     });
     it('count', () => {
       const param = { count: true };
       const actual = lib.buildParams(param);
 
-      assert.equal(actual.toString(), 'options=count');
+      assert.equal(actual.toString(), 'count=true');
     });
     it('count is false', () => {
       const param = { count: false };

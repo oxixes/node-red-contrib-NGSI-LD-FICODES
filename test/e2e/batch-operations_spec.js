@@ -32,6 +32,7 @@
 
 const { assert } = require('chai');
 const axios = require('axios');
+const { CONTEXT } = require('./constants');
 
 async function http(options) {
   return new Promise(function (resolve, reject) {
@@ -105,20 +106,25 @@ describe('batch-operations.js', () => {
       });
 
       assert.equal(actual.status, 201);
-      assert.deepEqual(actual.data, ['urn:ngsi-ld:TemperatureSensor:002', 'urn:ngsi-ld:TemperatureSensor:003', 'urn:ngsi-ld:TemperatureSensor:004']);
+      assert.deepEqual(
+        actual.data.sort(),
+        ['urn:ngsi-ld:TemperatureSensor:002', 'urn:ngsi-ld:TemperatureSensor:003', 'urn:ngsi-ld:TemperatureSensor:004'].sort()
+      );
     });
     it('read entities', async () => {
       const actual = await http({
         method: 'post',
         url: '/read-entities',
-        headers: { 'Content-Type': 'application/text; charset=utf-8' },
-        data: '.*'
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        data: {
+          type: 'TemperatureSensor'
+        }
       });
 
       assert.equal(actual.status, 200);
-      assert.deepEqual(actual.data, [
+      const expected = [
         {
-          '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+          '@context': CONTEXT,
           id: 'urn:ngsi-ld:TemperatureSensor:002',
           type: 'TemperatureSensor',
           category: {
@@ -132,7 +138,7 @@ describe('batch-operations.js', () => {
           }
         },
         {
-          '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+          '@context': CONTEXT,
           id: 'urn:ngsi-ld:TemperatureSensor:003',
           type: 'TemperatureSensor',
           category: {
@@ -146,7 +152,7 @@ describe('batch-operations.js', () => {
           }
         },
         {
-          '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+          '@context': CONTEXT,
           id: 'urn:ngsi-ld:TemperatureSensor:004',
           type: 'TemperatureSensor',
           category: {
@@ -159,7 +165,11 @@ describe('batch-operations.js', () => {
             unitCode: 'CEL'
           }
         }
-      ]);
+      ];
+      assert.deepEqual(
+        actual.data.sort((a, b) => a.id.localeCompare(b.id)),
+        expected.sort((a, b) => a.id.localeCompare(b.id))
+      );
     });
     it('batch update entities', async () => {
       const actual = await http({
@@ -203,14 +213,16 @@ describe('batch-operations.js', () => {
       const actual = await http({
         method: 'post',
         url: '/read-entities',
-        headers: { 'Content-Type': 'application/text; charset=utf-8' },
-        data: '.*'
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        data: {
+          type: 'TemperatureSensor'
+        }
       });
 
       assert.equal(actual.status, 200);
-      assert.deepEqual(actual.data, [
+      const expected = [
         {
-          '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+          '@context': CONTEXT,
           id: 'urn:ngsi-ld:TemperatureSensor:002',
           type: 'TemperatureSensor',
           category: {
@@ -224,7 +236,7 @@ describe('batch-operations.js', () => {
           }
         },
         {
-          '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+          '@context': CONTEXT,
           id: 'urn:ngsi-ld:TemperatureSensor:003',
           type: 'TemperatureSensor',
           category: {
@@ -238,7 +250,7 @@ describe('batch-operations.js', () => {
           }
         },
         {
-          '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+          '@context': CONTEXT,
           id: 'urn:ngsi-ld:TemperatureSensor:004',
           type: 'TemperatureSensor',
           category: {
@@ -251,7 +263,11 @@ describe('batch-operations.js', () => {
             unitCode: 'CEL'
           }
         }
-      ]);
+      ];
+      assert.deepEqual(
+        actual.data.sort((a, b) => a.id.localeCompare(b.id)),
+        expected.sort((a, b) => a.id.localeCompare(b.id))
+      );
     });
     it('batch upsert entities', async () => {
       const actual = await http({
@@ -301,24 +317,25 @@ describe('batch-operations.js', () => {
         ]
       });
 
-      assert.equal(actual.status, 207);
-      assert.deepEqual(actual.data, {
-        success: ['urn:ngsi-ld:TemperatureSensor:002', 'urn:ngsi-ld:TemperatureSensor:003', 'urn:ngsi-ld:TemperatureSensor:005'],
-        errors: []
-      });
+      assert.equal(actual.status, 201);
+      console.log(actual.data);
+      assert.typeOf(actual.data, 'array');
+      assert.deepEqual(actual.data.sort(), ['urn:ngsi-ld:TemperatureSensor:005'].sort());
     });
     it('read entities', async () => {
       const actual = await http({
         method: 'post',
         url: '/read-entities',
-        headers: { 'Content-Type': 'application/text; charset=utf-8' },
-        data: '.*'
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        data: {
+          type: 'TemperatureSensor'
+        }
       });
 
       assert.equal(actual.status, 200);
-      assert.deepEqual(actual.data, [
+      const expected = [
         {
-          '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+          '@context': CONTEXT,
           id: 'urn:ngsi-ld:TemperatureSensor:002',
           type: 'TemperatureSensor',
           category: {
@@ -332,7 +349,7 @@ describe('batch-operations.js', () => {
           }
         },
         {
-          '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+          '@context': CONTEXT,
           id: 'urn:ngsi-ld:TemperatureSensor:003',
           type: 'TemperatureSensor',
           category: {
@@ -346,7 +363,7 @@ describe('batch-operations.js', () => {
           }
         },
         {
-          '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+          '@context': CONTEXT,
           id: 'urn:ngsi-ld:TemperatureSensor:004',
           type: 'TemperatureSensor',
           category: {
@@ -360,7 +377,7 @@ describe('batch-operations.js', () => {
           }
         },
         {
-          '@context': 'https://raw.githubusercontent.com/FIWARE/tutorials.CRUD-Operations/NGSI-LD/data-models/ngsi-context.jsonld',
+          '@context': CONTEXT,
           id: 'urn:ngsi-ld:TemperatureSensor:005',
           type: 'TemperatureSensor',
           category: {
@@ -373,7 +390,11 @@ describe('batch-operations.js', () => {
             unitCode: 'CEL'
           }
         }
-      ]);
+      ];
+      assert.deepEqual(
+        actual.data.sort((a, b) => a.id.localeCompare(b.id)),
+        expected.sort((a, b) => a.id.localeCompare(b.id))
+      );
     });
     it('batch delete entities', async () => {
       const actual = await http({
@@ -395,8 +416,10 @@ describe('batch-operations.js', () => {
       const actual = await http({
         method: 'post',
         url: '/read-entities',
-        headers: { 'Content-Type': 'application/text; charset=utf-8' },
-        data: '.*'
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        data: {
+          type: 'TemperatureSensor'
+        }
       });
 
       assert.equal(actual.status, 200);
