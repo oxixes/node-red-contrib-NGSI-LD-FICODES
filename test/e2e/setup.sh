@@ -58,6 +58,7 @@ wait() {
 # Setup node-RED
 npm install node-red@4.1.5
 npm ci
+npm link
 npm link node-red-contrib-ngsi-ld-ficodes
 ./node_modules/node-red/red.js &
 

@@ -318,7 +318,6 @@ describe('batch-operations.js', () => {
       });
 
       assert.equal(actual.status, 201);
-      console.log(actual.data);
       assert.typeOf(actual.data, 'array');
       assert.deepEqual(actual.data.sort(), ['urn:ngsi-ld:TemperatureSensor:005'].sort());
     });
