@@ -52,7 +52,7 @@ const getEntities = async function (msg, param) {
         }
         param.config.offset += param.config.limit;
         if (totalCount <= 0) {
-          totalCount = Number(res.headers['NGSILD-Results-Count']);
+          totalCount = Number(res.headers.get('NGSILD-Results-Count'));
           if (totalCount <= 0) {
             break;
           }

@@ -35,6 +35,7 @@ require('babel-register')({
 });
 
 const { assert } = require('chai');
+const axios = require('axios');
 
 const entitiesNode = require('../../src/nodes/NGSI-LD/entities/entities.js');
 const MockRed = require('./helpers/mockred.js');
@@ -95,7 +96,7 @@ describe('entities.js', () => {
         http: async () =>
           Promise.resolve({
             status: 200,
-            headers: { 'NGSILD-Results-Count': 2 },
+            headers: new axios.AxiosHeaders({ 'ngsild-results-count': 2 }),
             data: [
               {
                 id: 'urn:ngsi-ld:TemperatureSensor:001',
@@ -179,7 +180,7 @@ describe('entities.js', () => {
         http: async () =>
           Promise.resolve({
             status: 200,
-            headers: { 'NGSILD-Results-Count': 4 },
+            headers: new axios.AxiosHeaders({ 'ngsild-results-count': 4 }),
             data: [
               {
                 id: 'urn:ngsi-ld:TemperatureSensor:001',
@@ -283,12 +284,119 @@ describe('entities.js', () => {
         }
       ]);
     });
+    it('get 4 entities with axios normalized headers', async () => {
+      let calls = 0;
+      entitiesNode.__set__('lib', {
+        http: async () => {
+          calls += 1;
+          return Promise.resolve({
+            status: 200,
+            headers: new axios.AxiosHeaders({ 'ngsild-results-count': 4 }),
+            data: [{ id: `entity-${calls}-1` }, { id: `entity-${calls}-2` }]
+          });
+        },
+        buildHTTPHeader: async () => {
+          return {};
+        },
+        buildParams: () => new URLSearchParams(),
+        decodeNGSI: (data) => data
+      });
+
+      const getEntities = entitiesNode.__get__('getEntities');
+
+      let actual = [];
+      const param = {
+        method: 'get',
+        host: 'http://orion-ld:1026',
+        pathname: '/ngsi-ld/v1/entities/',
+        buffer: buffering.open(
+          {
+            send: (entities) => {
+              actual = actual.concat(entities);
+            }
+          },
+          { payload: null }
+        ),
+        config: {
+          offset: 0,
+          limit: 2,
+          forbidden: false
+        }
+      };
+
+      const message = {};
+      await getEntities(message, param);
+
+      assert.equal(calls, 2);
+      assert.deepEqual(actual, [
+        {
+          payload: [{ id: 'entity-1-1' }, { id: 'entity-1-2' }, { id: 'entity-2-1' }, { id: 'entity-2-2' }],
+          statusCode: 200
+        }
+      ]);
+    });
+    it('gets 202 entities in 3 pages', async () => {
+      const pageSizes = [100, 100, 2];
+      const offsets = [];
+      let calls = 0;
+
+      entitiesNode.__set__('lib', {
+        http: async () => {
+          const pageSize = pageSizes[calls];
+          const data = Array.from({ length: pageSize }, (_, i) => ({ id: `entity-${calls}-${i}` }));
+          calls += 1;
+
+          return Promise.resolve({
+            status: 200,
+            headers: new axios.AxiosHeaders({ 'ngsild-results-count': 202 }),
+            data
+          });
+        },
+        buildHTTPHeader: async () => {
+          return {};
+        },
+        buildParams: (config) => {
+          offsets.push(config.offset);
+          return new URLSearchParams();
+        },
+        decodeNGSI: (data) => data
+      });
+
+      const getEntities = entitiesNode.__get__('getEntities');
+
+      let actual = [];
+      const param = {
+        method: 'get',
+        host: 'http://orion-ld:1026',
+        pathname: '/ngsi-ld/v1/entities/',
+        buffer: buffering.open(
+          {
+            send: (entities) => {
+              actual = actual.concat(entities);
+            }
+          },
+          { payload: null }
+        ),
+        config: {
+          offset: 0,
+          limit: 100,
+          forbidden: false
+        }
+      };
+
+      const message = {};
+      await getEntities(message, param);
+
+      assert.equal(calls, 3);
+      assert.deepEqual(offsets, [0, 100, 200]);
+      assert.equal(actual[0].payload.length, 202);
+    });
     it('empty', async () => {
       entitiesNode.__set__('lib', {
         http: async () =>
           Promise.resolve({
             status: 200,
-            headers: { 'NGSILD-Results-Count': 0 },
+            headers: new axios.AxiosHeaders({ 'ngsild-results-count': 0 }),
             data: []
           }),
         buildHTTPHeader: async () => {
@@ -326,7 +434,7 @@ describe('entities.js', () => {
         http: async () =>
           Promise.resolve({
             status: 200,
-            headers: { 'NGSILD-Results-Count': 0 },
+            headers: new axios.AxiosHeaders({ 'ngsild-results-count': 0 }),
             data: [{}]
           }),
         buildHTTPHeader: async () => {
@@ -1377,7 +1485,7 @@ describe('entities.js', () => {
         http: async () =>
           Promise.resolve({
             status: 200,
-            headers: { 'NGSILD-Results-Count': 2 },
+            headers: new axios.AxiosHeaders({ 'ngsild-results-count': 2 }),
             data: [
               {
                 id: 'urn:ngsi-ld:TemperatureSensor:001',

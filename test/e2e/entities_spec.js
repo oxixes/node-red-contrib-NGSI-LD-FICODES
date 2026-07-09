@@ -34,6 +34,28 @@ const { assert } = require('chai');
 const axios = require('axios');
 const { CONTEXT } = require('./constants');
 
+const PAGINATION_ENTITY_COUNT = 202;
+
+function buildPaginationEntities() {
+  return Array.from({ length: PAGINATION_ENTITY_COUNT }, (_, i) => {
+    const id = `urn:ngsi-ld:PaginationSensor:${String(i + 1).padStart(3, '0')}`;
+
+    return {
+      id,
+      type: 'PaginationSensor',
+      category: {
+        type: 'Property',
+        value: 'pagination'
+      },
+      temperature: {
+        type: 'Property',
+        value: i + 1,
+        unitCode: 'CEL'
+      }
+    };
+  });
+}
+
 async function http(options) {
   return new Promise(function (resolve, reject) {
     options.baseURL = 'http://127.0.0.1:1880';
@@ -194,6 +216,41 @@ describe('batch-operations.js', () => {
 
       assert.equal(actual.status, 200);
       assert.deepEqual(actual.data, []);
+    });
+    it('read more than 100 entities through pagination', async () => {
+      const entities = buildPaginationEntities();
+      const ids = entities.map((entity) => entity.id);
+
+      const create = await http({
+        method: 'post',
+        url: '/batch-upsert',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        data: entities
+      });
+
+      assert.include([201, 204], create.status);
+
+      const actual = await http({
+        method: 'post',
+        url: '/read-entities-length',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        data: {
+          type: 'PaginationSensor'
+        }
+      });
+
+      assert.equal(actual.status, 200);
+      assert.equal(Number(actual.data), PAGINATION_ENTITY_COUNT);
+
+      const deleted = await http({
+        method: 'post',
+        url: '/batch-delete',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        data: ids
+      });
+
+      assert.equal(deleted.status, 204);
+      assert.equal(deleted.data, '');
     });
   });
 });
