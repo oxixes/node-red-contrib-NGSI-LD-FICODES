@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-ngsi-ld-ficodes",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Node-RED implementation for NGSI-LD. FICODES publishing.",
   "scripts": {
     "lint": "eslint --ext .json,.js src test",

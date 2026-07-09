@@ -1,3 +1,23 @@
+## node-red-contrib-ngsi-ld-ficodes v0.4.6 - 9 July, 2026
+
+-   Fix NGSI-LD entities pagination by reading the total-count header through Axios' normalized response headers.
+-   Add unit and E2E coverage for paginating 202 entities across offsets 0, 100, and 200.
+-   Update test tooling and CI to run on current Node.js versions, including Node.js 26.
+-   Update E2E setup to use Node-RED 5.0.1.
+
+## node-red-contrib-ngsi-ld-ficodes v0.4.5 - 19 February, 2026
+
+-   Update repository and issue tracker metadata to point to the FICODES fork.
+-   Bump package version for the FICODES publishing release.
+
+## node-red-contrib-ngsi-ld-ficodes v0.4.3 - 19 February, 2026
+
+-   Rename package distribution to node-red-contrib-ngsi-ld-ficodes for FICODES publishing.
+-   Move E2E tests to Scorpio Broker and update the E2E Docker Compose setup.
+-   Fix E2E expectations and unit tests for Scorpio-compatible NGSI-LD behavior.
+-   Send `count` as a query parameter instead of an NGSI-LD `options` value.
+-   Update GitHub workflow branch filters and Node.js/Scorpio test versions.
+
 ## node-red-contrib-letsfiware-NGSI v0.4.2
 
 - Fix shared buffer in entities node (#30)
