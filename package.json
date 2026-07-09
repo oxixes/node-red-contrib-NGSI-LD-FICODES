@@ -3,12 +3,12 @@
   "version": "0.4.5",
   "description": "Node-RED implementation for NGSI-LD. FICODES publishing.",
   "scripts": {
-    "lint": "./node_modules/eslint/bin/eslint.js --ext .json,.js src test",
-    "format": "./node_modules/.bin/prettier --write src test",
+    "lint": "eslint --ext .json,.js src test",
+    "format": "prettier --write src test",
     "fix": "npm run format && npm run lint",
-    "test": "./node_modules/nyc/bin/nyc.js --reporter=html --reporter=text ./node_modules/mocha/bin/mocha.js \"test/unit/**/*_spec.js\"",
-    "e2e": "./node_modules/nyc/bin/nyc.js --reporter=html --reporter=text ./node_modules/mocha/bin/mocha.js \"test/e2e/**/*_spec.js\"",
-    "coverage": "mkdir -p coverage && ./node_modules/nyc/bin/nyc.js --reporter=text-lcov ./node_modules/mocha/bin/mocha.js \"test/unit/**/*_spec.js\" > ./coverage/coverage.lcov"
+    "test": "nyc --reporter=html --reporter=text mocha \"test/unit/**/*_spec.js\"",
+    "e2e": "nyc --reporter=html --reporter=text mocha \"test/e2e/**/*_spec.js\"",
+    "coverage": "mkdir -p coverage && nyc --reporter=text-lcov mocha \"test/unit/**/*_spec.js\" > ./coverage/coverage.lcov"
   },
   "node-red": {
     "version": ">=1.0.0",
@@ -54,8 +54,8 @@
     "chai": "^4.3.7",
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
-    "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
+    "mocha": "^11.7.6",
+    "nyc": "^17.1.0",
     "prettier": "^2.8.8"
   },
   "engines": {
