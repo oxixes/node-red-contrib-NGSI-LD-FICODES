@@ -87,6 +87,11 @@ const validateConfig = function (msg, config) {
     }
   }
 
+  if (typeof config.join !== 'undefined' && config.join !== '' && typeof config.join !== 'string') {
+    msg.payload = { error: 'join not string' };
+    return false;
+  }
+
   const boolean_items = ['sysAttrs', 'forbidden'];
   for (let i = 0; i < boolean_items.length; i++) {
     const e = boolean_items[i];
@@ -94,6 +99,14 @@ const validateConfig = function (msg, config) {
       msg.payload = { error: e + ' not boolean' };
       return false;
     }
+  }
+
+  if (
+    typeof config.joinLevel !== 'undefined' &&
+    (typeof config.joinLevel !== 'number' || !Number.isInteger(config.joinLevel) || config.joinLevel < 1)
+  ) {
+    msg.payload = { error: 'joinLevel not positive integer' };
+    return false;
   }
 
   return true;
@@ -127,11 +140,23 @@ const createParam = function (msg, config, brokerConfig) {
     forbidden: config.forbidden ? config.forbidden === 'true' : false
   };
 
+  if (typeof config.join !== 'undefined' && config.join !== '') {
+    defaultConfig.join = typeof config.join === 'string' ? config.join.trim() : config.join;
+  }
+  if (typeof config.joinLevel !== 'undefined' && config.joinLevel !== '') {
+    defaultConfig.joinLevel = Number(config.joinLevel);
+  }
+
   if (typeof msg.payload === 'string') {
     param.config.entityId = msg.payload;
   } else {
     ['entityId', 'attrs', 'representation', 'sysAttrs', 'geometryProperty', 'lang', 'accept', 'forbidden'].forEach((e) => {
       if (msg.payload[e]) {
+        defaultConfig[e] = msg.payload[e];
+      }
+    });
+    ['join', 'joinLevel'].forEach((e) => {
+      if (typeof msg.payload[e] !== 'undefined') {
         defaultConfig[e] = msg.payload[e];
       }
     });

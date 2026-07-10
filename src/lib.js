@@ -96,6 +96,8 @@ function buildParams(config) {
     'geoproperty',
     'geometryProperty',
     'lang',
+    'join',
+    'joinLevel',
     'limit',
     'offset',
     'deleteAll',

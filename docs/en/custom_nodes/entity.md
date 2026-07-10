@@ -94,6 +94,8 @@ It allows to read a NGSI-LD entity.
 | System attrs                    | `true` or `false`                              |
 | Geometry property               | GeoProperty Name                               |
 | Language                        | The preferred natural language of the response |
+| Join                            | Linked entity retrieval mode: `flat` or `inline` |
+| Join level                      | Positive integer depth for linked entity retrieval |
 | Accept                          | `JSON-LD`, `JSON` or `GeoJSON`                 |
 | @context                        | NGSI-LD @context                               |
 | Encode / Decode forbidden chars | `off` or `on`                                  |
@@ -126,6 +128,8 @@ The values in the payload may overwrite properties.
 | sysAttrs         | boolean   | `true` or `false`                                                   |
 | geometryProperty | string    | GeoProperty Name                                                    |
 | lang             | string    | The preferred natural language of the response                      |
+| join             | string    | Linked entity retrieval mode: `flat` or `inline`                     |
+| joinLevel        | number    | Positive integer depth for linked entity retrieval                   |
 | accept           | string    | `application/ld+json`, `application/json` or `application/geo+json` |
 | forbidden        | boolean   | `true` or `false`                                                   |
 

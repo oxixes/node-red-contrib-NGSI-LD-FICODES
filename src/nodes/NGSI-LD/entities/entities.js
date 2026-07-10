@@ -105,6 +105,11 @@ const validateConfig = function (msg, config) {
     }
   }
 
+  if (typeof config.join !== 'undefined' && config.join !== '' && typeof config.join !== 'string') {
+    msg.payload = { error: 'join not string' };
+    return false;
+  }
+
   const boolean_items = ['buffering', 'sysAttrs', 'forbidden'];
   for (let i = 0; i < boolean_items.length; i++) {
     const e = boolean_items[i];
@@ -121,6 +126,14 @@ const validateConfig = function (msg, config) {
 
   if (config.offset && typeof config.offset !== 'number') {
     msg.payload = { error: 'offset not number' };
+    return false;
+  }
+
+  if (
+    typeof config.joinLevel !== 'undefined' &&
+    (typeof config.joinLevel !== 'number' || !Number.isInteger(config.joinLevel) || config.joinLevel < 1)
+  ) {
+    msg.payload = { error: 'joinLevel not positive integer' };
     return false;
   }
 
@@ -166,6 +179,13 @@ const createParam = function (msg, config, brokerConfig) {
     }
   };
 
+  if (typeof config.join !== 'undefined' && config.join !== '') {
+    param.config.join = typeof config.join === 'string' ? config.join.trim() : config.join;
+  }
+  if (typeof config.joinLevel !== 'undefined' && config.joinLevel !== '') {
+    param.config.joinLevel = Number(config.joinLevel);
+  }
+
   [
     'representation',
     'id',
@@ -188,6 +208,11 @@ const createParam = function (msg, config, brokerConfig) {
     'offset'
   ].forEach((e) => {
     if (msg.payload[e]) {
+      param.config[e] = msg.payload[e];
+    }
+  });
+  ['join', 'joinLevel'].forEach((e) => {
+    if (typeof msg.payload[e] !== 'undefined') {
       param.config[e] = msg.payload[e];
     }
   });

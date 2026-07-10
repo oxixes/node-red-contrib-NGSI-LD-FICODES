@@ -1022,6 +1022,24 @@ describe('entities.js', () => {
       assert.equal(actual, false);
       assert.deepEqual(msg, { payload: { error: 'offset not number' } });
     });
+    it('join not string', () => {
+      const validateConfig = entitiesNode.__get__('validateConfig');
+
+      const msg = {};
+      const actual = validateConfig(msg, { join: 123 });
+
+      assert.equal(actual, false);
+      assert.deepEqual(msg, { payload: { error: 'join not string' } });
+    });
+    it('joinLevel not positive integer', () => {
+      const validateConfig = entitiesNode.__get__('validateConfig');
+
+      const msg = {};
+      const actual = validateConfig(msg, { joinLevel: 0 });
+
+      assert.equal(actual, false);
+      assert.deepEqual(msg, { payload: { error: 'joinLevel not positive integer' } });
+    });
   });
   describe('createParam', () => {
     it('string param', () => {
@@ -1085,7 +1103,7 @@ describe('entities.js', () => {
     });
     it('object param', () => {
       const createParam = entitiesNode.__get__('createParam');
-      const errmsg = { payload: { idPattern: '.*' } };
+      const errmsg = { payload: { idPattern: '.*', join: 'inline', joinLevel: 2 } };
       const config = {
         representation: 'normalized',
         entityId: '',
@@ -1101,6 +1119,8 @@ describe('entities.js', () => {
         geoproperty: '',
         geometryProperty: '',
         lang: '',
+        join: 'flat',
+        joinLevel: '3',
         accept: 'application/ld+json',
         atContext: '',
         buffering: 'off',
@@ -1136,6 +1156,8 @@ describe('entities.js', () => {
         geoproperty: '',
         geometryProperty: '',
         lang: '',
+        join: 'inline',
+        joinLevel: 2,
         accept: 'application/ld+json',
         buffering: false,
         forbidden: true,

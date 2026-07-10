@@ -181,6 +181,13 @@ describe('lib.js', () => {
 
       assert.equal(actual.toString(), 'lang=ja');
     });
+    it('join and joinLevel', () => {
+      const param = { join: 'inline', joinLevel: 2 };
+      const actual = lib.buildParams(param);
+
+      assert.equal(actual.get('join'), 'inline');
+      assert.equal(actual.get('joinLevel'), '2');
+    });
     it('limit, offset', () => {
       const param = { limit: 100, offset: 200 };
       const actual = lib.buildParams(param);

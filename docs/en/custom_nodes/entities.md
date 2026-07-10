@@ -38,6 +38,8 @@ This custom node is a simple node that allows to obtain NGSI-LD entities.
 | Geo property           | The name of the Property that contains the geospatial data  |
 | Geometry property      | GeoProperty Name                                            |
 | Language               | The preferred natural language of the response              |
+| Join                   | Linked entity retrieval mode: `flat` or `inline`             |
+| Join level             | Positive integer depth for linked entity retrieval           |
 | Accept                 | `JSON-LD`, `JSON` or `GeoJSON`                              |
 | @context               | NGSI-LD @context                                            |
 | Buffering              | `off` or `on`                                               |
@@ -66,6 +68,8 @@ The values in the payload may overwrite properties.
 | geoproperty      | string    | The name of the Property that contains the geospatial data          |
 | geometryProperty | string    | GeoProperty Name                                                    |
 | lang             | string    | The preferred natural language of the response                      |
+| join             | string    | Linked entity retrieval mode: `flat` or `inline`                     |
+| joinLevel        | number    | Positive integer depth for linked entity retrieval                   |
 | accept           | string    | `application/ld+json`, `application/json` or `application/geo+json` |
 | forbidden        | boolean   | `true` or `false`                                                   |
 
@@ -75,6 +79,8 @@ The values in the payload may overwrite properties.
   "type": "T",
   "attrs": "humidity",
   "q": "temperature>29",
+  "join": "inline",
+  "joinLevel": 2,
   "keyValues": true
 }
 ```

@@ -441,6 +441,24 @@ describe('entity.js', () => {
       assert.equal(actual, false);
       assert.deepEqual(msg, { payload: { error: 'forbidden not boolean' } });
     });
+    it('join not string', () => {
+      const validateConfig = entityNode.__get__('validateConfig');
+
+      const msg = {};
+      const actual = validateConfig(msg, { join: true, actionType: 'create' });
+
+      assert.equal(actual, false);
+      assert.deepEqual(msg, { payload: { error: 'join not string' } });
+    });
+    it('joinLevel not positive integer', () => {
+      const validateConfig = entityNode.__get__('validateConfig');
+
+      const msg = {};
+      const actual = validateConfig(msg, { joinLevel: 1.5, actionType: 'create' });
+
+      assert.equal(actual, false);
+      assert.deepEqual(msg, { payload: { error: 'joinLevel not positive integer' } });
+    });
   });
   describe('createParam', () => {
     it('create', () => {
@@ -455,6 +473,8 @@ describe('entity.js', () => {
         sysAttrs: false,
         geometryProperty: '',
         lang: '',
+        join: 'flat',
+        joinLevel: '3',
         accept: 'application/ld+json',
         forbidden: 'true'
       };
@@ -481,6 +501,8 @@ describe('entity.js', () => {
           sysAttrs: false,
           geometryProperty: '',
           lang: '',
+          join: 'flat',
+          joinLevel: 3,
           accept: 'application/ld+json',
           forbidden: true
         },

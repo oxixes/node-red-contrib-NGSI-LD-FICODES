@@ -1,3 +1,7 @@
+## node-red-contrib-ngsi-ld-ficodes v0.4.7 - 10 July, 2026
+
+-   Add `join` and `joinLevel` support to entity retrieval and entity queries.
+
 ## node-red-contrib-ngsi-ld-ficodes v0.4.6 - 9 July, 2026
 
 -   Fix NGSI-LD entities pagination by reading the total-count header through Axios' normalized response headers.

@@ -44,6 +44,8 @@
       representation: { value: 'normalized' },
       geometryProperty: { value: '' },
       lang: { value: '' },
+      join: { value: '' },
+      joinLevel: { value: '' },
       accept: { value: 'application/ld+json' },
       forbidden: { value: 'false' }
     },
@@ -66,6 +68,8 @@
         document.getElementById('sysAttrs').hidden = false;
         document.getElementById('geometryProperty').hidden = false;
         document.getElementById('lang').hidden = false;
+        document.getElementById('join').hidden = false;
+        document.getElementById('joinLevel').hidden = false;
         document.getElementById('accept').hidden = false;
         break;
       case 'delete':
@@ -75,6 +79,8 @@
         document.getElementById('sysAttrs').hidden = true;
         document.getElementById('geometryProperty').hidden = true;
         document.getElementById('lang').hidden = true;
+        document.getElementById('join').hidden = true;
+        document.getElementById('joinLevel').hidden = true;
         document.getElementById('accept').hidden = true;
         break;
       case 'create':
@@ -84,6 +90,8 @@
         document.getElementById('sysAttrs').hidden = true;
         document.getElementById('geometryProperty').hidden = true;
         document.getElementById('lang').hidden = true;
+        document.getElementById('join').hidden = true;
+        document.getElementById('joinLevel').hidden = true;
         document.getElementById('accept').hidden = true;
         break;
       default:
@@ -93,6 +101,8 @@
         document.getElementById('sysAttrs').hidden = false;
         document.getElementById('geometryProperty').hidden = false;
         document.getElementById('lang').hidden = false;
+        document.getElementById('join').hidden = false;
+        document.getElementById('joinLevel').hidden = false;
         document.getElementById('accept').hidden = false;
         break;
     }
@@ -146,6 +156,18 @@
   <div class="form-row" id="lang">
       <label for="node-input-lang"><i class="fa fa-tag"></i> Language</label>
       <input type="text" id="node-input-lang">
+  </div>
+  <div class="form-row" id="join">
+      <label for="node-input-join"><i class="fa fa-tag"></i> Join</label>
+      <select id="node-input-join">
+          <option value="" enabled>none</option>
+          <option value="flat">flat</option>
+          <option value="inline">inline</option>
+      </select>
+  </div>
+  <div class="form-row" id="joinLevel">
+      <label for="node-input-joinLevel"><i class="fa fa-tag"></i> Join level</label>
+      <input type="number" id="node-input-joinLevel" min="1" step="1">
   </div>
   <div class="form-row" id="accept">
       <label for="node-input-accept"><i class="fa fa-tag"></i> Accept</label>
